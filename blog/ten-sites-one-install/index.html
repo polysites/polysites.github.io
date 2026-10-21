@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>One install, ten very different websites | Polysite</title>
+  <meta name="description" content="A hands-on tour of Polysite, a
+multi-site CMS: roles anyone can edit, themes that are just folders, a
+petition form I tried to break, and the real bugs worth stealing.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://polysites.github.io/blog/ten-sites-one-install/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Polysite">
+  <meta property="og:title" content="One install, ten very different
+websites">
+  <meta property="og:description" content="A hands-on tour of Polysite,
+a multi-site CMS: roles anyone can edit, themes that are just folders, a
+petition form I tried to break, and the real bugs worth stealing.">
+  <meta property="og:url" content="https://polysites.github.io/blog/ten-sites-one-install/">
+  <meta property="og:image" content="https://polysites.github.io/blog/ten-sites-one-install/images/09-social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://polysites.github.io/blog/ten-sites-one-install/images/09-social-card.png">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXBECC91SR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+
+    gtag("config", "G-XXBECC91SR");
+  </script>
+  <style>
+    :root { --ink:#16213e; --bg:#fff; --surface:#f5f6f8; --muted:#4b5565; --accent:#3e5ba6; --tint:#e8ecf6; --line:#e2e5ea; }
+    @media (prefers-color-scheme: dark) { :root { --ink:#f2f4f8; --bg:#121318; --surface:#1b1d24; --muted:#aeb7c6; --accent:#6b8fd4; --tint:#232b42; --line:#2a2d36; } }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Georgia, "Iowan Old Style", "Times New Roman", serif; color:var(--ink); background:var(--bg); line-height:1.75; font-size:1.15rem; }
+    header.top { border-bottom:1px solid var(--line); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    header.top div { max-width:46rem; margin:0 auto; padding:.9rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    header.top img { height:2rem; width:auto; }
+    header.top a.nav { margin-left:auto; color:var(--muted); text-decoration:none; font-size:.95rem; }
+    main { max-width:46rem; margin:0 auto; padding:2.5rem 1.25rem 4rem; }
+    h1 { font-size:clamp(2rem,5vw,3rem); line-height:1.15; margin:.2rem 0 .8rem; letter-spacing:-.01em; }
+    p.subtitle { font-family: system-ui, sans-serif; font-size:1.2rem; color:var(--muted); line-height:1.5; margin:0 0 2rem; }
+    h2 { font-size:1.7rem; line-height:1.25; margin:3rem 0 .8rem; }
+    p, li { margin:0 0 1.1rem; }
+    img { max-width:100%; height:auto; border-radius:.6rem; border:1px solid var(--line); }
+    figure { margin:2rem 0; } figcaption { font-family: system-ui, sans-serif; font-size:.9rem; color:var(--muted); text-align:center; margin-top:.5rem; }
+    a { color:var(--accent); }
+    pre { background:#0f1424; color:#e8ecf6; padding:1rem 1.1rem; border-radius:.7rem; overflow-x:auto; font-size:.88rem; line-height:1.55; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    :not(pre) > code { background:var(--tint); padding:.1rem .35rem; border-radius:.3rem; font-size:.88em; }
+    footer { border-top:1px solid var(--line); font-family: system-ui, sans-serif; font-size:.9rem; color:var(--muted); }
+    footer div { max-width:46rem; margin:0 auto; padding:1.5rem 1.25rem 3rem; }
+    footer a { color:var(--muted); }
+  </style>
+</head>
+<body>
+  <header class="top"><div>
+    <a href="/" aria-label="Polysite home"><img src="/logo-horizontal.svg" alt="Polysite" width="120" height="32"></a>
+    <a class="nav" href="/polysite/">Documentation</a>
+  </div></header>
+  <main>
+    <h1>One install, ten very different websites</h1>
+    <p class="subtitle">A hands-on tour of Polysite, a multi-site CMS:
+roles anyone can edit, themes that are just folders, a petition form I
+tried to break, and the real bugs worth stealing.</p>
+<figure>
+<img src="images/01-cover.png"
+alt="Ten very different example websites on one Polysite install" />
+<figcaption aria-hidden="true">Ten very different example websites on
+one Polysite install</figcaption>
+</figure>
+<p>If your organisation runs more than one website, you already know the
+feeling. Five sites means five logins, five update days and five
+slightly different answers to “who is allowed to publish?”. Somebody
+leaves; their account stays. Somebody forgets a security update on the
+site nobody remembers owning.</p>
+<p>I have spent a long time building an answer to that:
+<strong>Polysite</strong>, a CMS that runs many websites from one
+install. Each site keeps its own domain, look, content and team. An
+editor on one site cannot see or change another.</p>
+<p>This article is a tour you can follow on your own computer. By the
+end you will have two sites with two completely different looks running
+from one install, and you will know how the roles, themes, petition
+forms and plugins work underneath. I will also share the five real bugs
+that taught me the most, because some of them will save you a day.</p>
+<h2 id="the-idea-in-one-picture">The idea in one picture</h2>
+<figure>
+<img src="images/02-before-after.png"
+alt="Before: five separate installs. After: five sites on one Polysite install." />
+<figcaption aria-hidden="true">Before: five separate installs. After:
+five sites on one Polysite install.</figcaption>
+</figure>
+<p>The idea has one rule: <strong>a site is a domain.</strong> A request
+arrives for a domain, and the domain decides which site you are looking
+at. Content, media and users belong to that site. Everything else
+(updates, backups, access rules, plugins) is shared and exists once.</p>
+<p>Under the hood it is a Payload CMS 3 back end and a Nuxt 4 public
+site, with PostgreSQL, run with Docker Compose. You do not need to know
+any of that to follow the next section.</p>
+<h2 id="try-it-yourself-in-about-ten-minutes">Try it yourself in about
+ten minutes</h2>
+<p>You need Docker (with Compose v2) and Git. Nothing else gets
+installed on your machine. Ports 80, 443, 3000, 3001 and 5432 need to be
+free, and you need about 5 GB of disk. This is the hot-reload
+development setup, so use a laptop or a throwaway server, not
+production.</p>
+<pre class="bash"><code>git clone https://github.com/polysites/polysite.git &amp;&amp; cd polysite
+git clone https://github.com/polysites/polysite-themes.git themes
+git clone https://github.com/polysites/polysite-plugins.git plugins
+cp .env.example .env
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build</code></pre>
+<p>On the maintainers’ Windows machine the build took about 110 seconds
+with nothing cached, and about 45 with cached layers.</p>
+<p>Then open <code>http://polysite.localhost/admin</code>. On an empty
+install the admin shows a setup page instead of a login:</p>
+<figure>
+<img src="images/03-setup-flow.png"
+alt="Three steps: run the commands, fill in the setup page, open your site" />
+<figcaption aria-hidden="true">Three steps: run the commands, fill in
+the setup page, open your site</figcaption>
+</figure>
+<ol type="1">
+<li>Create your administrator account. It becomes the Super Admin.</li>
+<li>Name your first site, give it the domain
+<code>examplesite.localhost</code>, pick a theme and tick “create a
+starter home page”.</li>
+<li>Open <code>http://examplesite.localhost</code>. Your first site is
+live.</li>
+</ol>
+<p>Browsers resolve <code>*.localhost</code> addresses on their own, so
+there is nothing to configure. Now create a second site in the admin
+(Sites, then Create) with the domain
+<code>examplesite2.localhost</code>, pick a different theme, add a Home
+page, and open it. Two sites, two looks, one install.</p>
+<p>If you would rather start with fictional demo content,
+<code>docker compose exec cms npx payload run scripts/seedDevData.ts</code>
+loads it instead of the setup page. Do one or the other.</p>
+<h2 id="ten-looks-one-engine">Ten looks, one engine</h2>
+<p>A site’s look in Polysite is a <strong>theme</strong>, and a theme is
+a folder: a <a href="https://nuxt.com/docs/getting-started/layers">Nuxt
+layer</a> with a layout, one component per page block and a small
+stylesheet of design tokens. The core handles data, routing, SEO and
+caching, so a theme never has to.</p>
+<p>Ten complete example themes come in the themes repository, each with
+fictional content and original artwork: a day spa, a café, a
+consultancy, a local shop, a writer’s blog, a portfolio, a CV, a
+one-weekend conference, a community charity and a help centre.</p>
+<figure>
+<img src="images/04-ten-themes.png"
+alt="The ten example themes in one grid" />
+<figcaption aria-hidden="true">The ten example themes in one
+grid</figcaption>
+</figure>
+<p>Every theme is part of the same Nuxt build, and the request’s site
+record picks which one renders. For each block on a page, Polysite uses
+the first component it finds:</p>
+<figure>
+<img src="images/05-first-match-wins.png"
+alt="First match wins: the site’s theme, then its parent theme, then the core fallback" />
+<figcaption aria-hidden="true">First match wins: the site’s theme, then
+its parent theme, then the core fallback</figcaption>
+</figure>
+<p>That means a theme can be a complete copy of the starter, or a layout
+plus one overridden block that inherits everything else from a parent.
+Making your own takes one command:</p>
+<pre class="bash"><code>themes/scripts/new-theme.sh bakery &quot;Bakery&quot;
+docker compose restart web cms</code></pre>
+<p>Open <strong>Sites</strong> in the admin, choose a site and set its
+<strong>Theme</strong> to Bakery. It looks like the starter and is yours
+to change. The whole structure is:</p>
+<pre class="text"><code>polysite-theme-bakery/
+  layouts/bakery.vue         header, navigation, footer
+  components/bakery/*.vue    the page blocks this theme draws
+  assets/css/bakery.css      design tokens
+  theme.json                 label, optional parent</code></pre>
+<h2 id="who-is-allowed-to-publish-in-one-minute">“Who is allowed to
+publish?” in one minute</h2>
+<p>This is the feature people react to most. In Polysite, <strong>a role
+is data, not code</strong>. A Super Admin opens a screen, creates a role
+such as “Newsletter editor”, ticks which parts of the system it may
+touch (pages, media, forms) and which operations it has (create, read,
+update, delete, publish, unpublish, clone to another site), and saves.
+No developer, no deploy.</p>
+<figure>
+<img src="images/06-roles.png"
+alt="An illustration of the roles idea: a role is a row of ticks, and anything not ticked is blocked" />
+<figcaption aria-hidden="true">An illustration of the roles idea: a role
+is a row of ticks, and anything not ticked is blocked</figcaption>
+</figure>
+<p>Two design decisions make this safe:</p>
+<ul>
+<li><strong>Access fails closed.</strong> A missing role, module or
+operation always resolves to “deny”, never “allow”.</li>
+<li><strong>One flag is deliberately not a role.</strong>
+<code>isSuperAdmin</code> is a plain flag on the user, checked first, so
+a misconfigured role can never lock everyone out or promote itself.</li>
+</ul>
+<p>The editors’ side is just as plain. Pages are built from typed blocks
+(hero banners, text, FAQ accordions, feature grids, form embeds,
+donation tiers), with Live Preview at phone, tablet and desktop widths.
+Every page has Save draft and Publish changes, a version history you can
+compare and restore, scheduled publishing, and a “ready for review”
+marker.</p>
+<h2 id="i-tried-to-break-my-own-petition-form">I tried to break my own
+petition form</h2>
+<p>A petition site has one nightmare: it goes viral and falls over, or
+worse, loses signatures or counts one person six times. So I designed
+for it, and then I tried to break it.</p>
+<p><strong>One signature per person.</strong> Any form can become a
+petition with two settings. The key is an HMAC of the form and the
+normalised email address, protected by a <strong>unique index in the
+database</strong>. The index, not a look-up, is what stops two
+simultaneous requests from both being stored. Someone who signs twice
+sees the normal thank-you and nothing extra is stored, so the form
+cannot be used to find out who has signed. A public count and optional
+goal bar are cached for ten seconds, so a page thousands of people open
+at once costs one count query every few seconds.</p>
+<p><strong>The test.</strong> I gave the CMS 1 CPU and 1 GB, gave
+PostgreSQL 1 CPU and 512 MB, and ran the load generator on the same
+machine.</p>
+<figure>
+<img src="images/07-petition-test.png"
+alt="Throughput stayed at about 55 to 57 signatures a second while waiting time grew with concurrency" />
+<figcaption aria-hidden="true">Throughput stayed at about 55 to 57
+signatures a second while waiting time grew with
+concurrency</figcaption>
+</figure>
+<p>Throughput stayed at about <strong>55 to 57 new signatures a
+second</strong> at every concurrency level (10, 25, 50, 100). More
+simultaneous signers did not go faster; they queued, which is what a
+saturated CPU looks like. And the number I care about most:
+<strong>3,457 signatures accepted, 3,457 stored, public count
+3,457.</strong> No loss, no duplicates, no errors. The CPU was the
+limit.</p>
+<p>Put it in campaign terms: 1,000 to 10,000 signatures a day is under
+one a second on average, and 10,000 in three minutes is about 55 a
+second. That is why there is no queue in the design.</p>
+<p>A caveat that matters: this was a lab test on one machine, with the
+load generator sharing it. Treat it as an estimate, and run it on your
+own server before a campaign. The script is in the repository and builds
+its own throwaway Docker project, so it does not touch your data:</p>
+<pre class="bash"><code>git clone https://github.com/polysites/polysite.git &amp;&amp; cd polysite
+sh tests/load/run.sh</code></pre>
+<p>It takes about ten minutes, mostly the build. I would love to hear
+your numbers.</p>
+<h2 id="plugins-that-own-their-tables">Plugins that own their
+tables</h2>
+<p>Everything optional lives in plugins: news, search, several languages
+per site, events with RSVP and waiting lists, signed webhooks, share
+buttons, a WordPress importer and more. A plugin is a folder you drop
+in; the CMS finds it at boot.</p>
+<p>The rule I am proudest of: <strong>removing a plugin never deletes
+what its users created.</strong> Each plugin keeps its data in its own
+tables with its own migrations, and a check in the project’s CI fails
+any migration that drops a table, column or type. That rule exists
+because I found three real ways a removed plugin could have destroyed
+data, so it is now enforced by machine, not by memory.</p>
+<h2 id="under-the-hood">Under the hood</h2>
+<figure>
+<img src="images/08-architecture.png"
+alt="Architecture: Caddy in front of a Nuxt web app and a Payload CMS, backed by PostgreSQL, with themes and plugins as folders" />
+<figcaption aria-hidden="true">Architecture: Caddy in front of a Nuxt
+web app and a Payload CMS, backed by PostgreSQL, with themes and plugins
+as folders</figcaption>
+</figure>
+<ul>
+<li><strong>Caddy</strong> terminates HTTPS and issues certificates
+automatically.</li>
+<li><strong>Web</strong> is a Nuxt 4 app. Pages are rendered once, kept
+in a cache and rendered again only when an editor publishes a
+change.</li>
+<li><strong>CMS</strong> is Payload 3 on Next.js, with the admin.</li>
+<li><strong>PostgreSQL 16</strong> holds everything. Redis is
+provisioned but not used yet.</li>
+<li><strong>Operations</strong> are deliberately boring: one VM, Docker
+Compose, versioned images. A deploy script takes a backup first, runs
+migrations, switches one service at a time and rolls back by itself if a
+health check fails. Backups run nightly and are test-restored weekly.
+Polysite sends no telemetry; I checked with a packet capture.</li>
+</ul>
+<h2 id="five-real-bugs-worth-stealing">Five real bugs worth
+stealing</h2>
+<p>The architecture guide in the repository keeps a Known Issues log of
+the real bugs hit while building. These five taught me the most.</p>
+<p><strong>1. <code>access.read</code> is not navigation
+visibility.</strong> I once gated a collection’s <code>read</code>
+access to hide a menu item for non-admin roles. It broke the entire
+admin shell with a hard 500, because the multi-tenant plugin needs
+scoped read access on sites to resolve tenants. Use
+<code>admin.hidden</code> for what appears in the sidebar and leave real
+access control alone.</p>
+<p><strong>2. Postgres ids lie about their type.</strong> In a Payload
+access function, <code>user.id</code> can arrive as a number while the
+function’s own <code>id</code> argument is a string for the same record.
+A strict <code>===</code> fails silently, which looks exactly like
+“access correctly denied” until you test with a real non-admin login.
+Always compare <code>String(a) === String(b)</code>.</p>
+<p><strong>3. A second theme exposes what the first hid.</strong> A
+shared composable written with <code>await</code> before
+<code>useHead()</code> worked with one theme and threw with two.
+Tailwind’s source scanning skipped the theme layers entirely because
+each one is a nested git repository, and later only covered the first
+theme by name. Nothing showed these until a second theme existed. Test
+layers with at least two.</p>
+<p><strong>4. The database adapter wraps your unique violation.</strong>
+Payload’s Postgres adapter does not pass the raw unique-violation error
+(<code>23505</code>) through. It throws its own
+<code>ValidationError</code> whose message names the columns. My first
+petition version only recognised the raw error and answered 500 on a
+duplicate signature. A live test caught it, and now a unit test pins the
+shape.</p>
+<p><strong>5. Deleting a plugin must be harmless.</strong> Without care,
+a site or role that still ticked a removed plugin’s module failed to
+save, and dev-mode schema pushes offered to drop the plugin’s tables.
+The fix was a rule, migrations that never delete, plus a check that
+enforces it.</p>
+<h2 id="how-it-was-built">How it was built</h2>
+<p>Polysite was built by me together with Claude, Anthropic’s AI coding
+assistant. I am saying so plainly because it matters to how you read the
+rest. The record of what was checked is the automated test suites
+(hundreds of unit tests), the real-stack checks, the load test above and
+the Known Issues log, not my say-so. I would rather you read them than
+trust either of us.</p>
+<h2 id="where-it-stands">Where it stands</h2>
+<p>Polysite is in <strong>beta</strong>. It is <strong>source-available,
+not open source</strong>: free to use and modify for your own
+organisation’s sites, and building or hosting sites for clients for a
+fee needs a separate agreement. Because the deploy and release tooling
+is new, try it on a throwaway server before anything important, and take
+your own backup before upgrading. There has not been an independent
+security review yet.</p>
+<h2 id="try-it-break-it-tell-me">Try it, break it, tell me</h2>
+<ul>
+<li><strong>Docs:</strong> <a
+href="https://polysites.github.io/polysite/">polysites.github.io/polysite</a></li>
+<li><strong>Code:</strong> <a
+href="https://github.com/polysites/polysite">github.com/polysites/polysite</a>
+(with <a href="https://github.com/polysites/polysite-themes">themes</a>
+and <a href="https://github.com/polysites/polysite-plugins">plugins</a>
+alongside)</li>
+<li><strong>Landing page:</strong> <a
+href="https://polysites.github.io">polysites.github.io</a></li>
+</ul>
+<p>Three things I would love to hear: which example theme you would
+restyle first; what your load-test number was; and whether “every plugin
+owns its tables and migrations” sounds sane to you or like a trap. Write
+to me at <a
+href="mailto:me@iamharshdoshi.com">me@iamharshdoshi.com</a>.</p>
+<p>If you are not technical and just want to know whether this could
+work for your organisation’s sites, write to me too and I will walk you
+through it, no obligation.</p>
+  </main>
+  <footer><div>
+    <p>Polysite is source-available under the <a href="https://github.com/polysites/polysite/blob/main/LICENSE.md">Polysite Source-Available License 1.0</a>. It is not open source. &copy; 2026 Quick Support Today Inc. This website counts visits with Google Analytics.</p>
+    <p><a href="/">polysites.github.io</a> · <a href="/polysite/">Docs</a> · <a href="https://github.com/polysites/polysite">Source code</a></p>
+  </div></footer>
+</body>
+</html>
