@@ -124,6 +124,15 @@
     .skip { position: absolute; left: -999px; top: 0; background: var(--accent); color: var(--accent-ink); padding: .5rem 1rem; z-index: 20; }
     .skip:focus { left: .5rem; top: .5rem; }
   </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXBECC91SR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+
+    gtag("config", "G-XXBECC91SR");
+  </script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -157,7 +166,7 @@
             <a class="btn ghost" href="#try">Try it on your computer</a>
           </div>
           <ul class="badges" aria-label="Status">
-            <li>Beta</li><li>Source-available</li><li>Free for your own sites</li><li>No tracking built in</li>
+            <li>Beta</li><li>Source-available</li><li>Free for your own sites</li><li>Product sends no usage data</li>
           </ul>
         </div>
         <div class="stack" aria-label="Three of the ten example designs">
@@ -277,7 +286,7 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build</co
       <div class="wrap">
         <div class="status">
           <h2 class="serif" style="font-size:1.6rem">Where it stands, honestly.</h2>
-          <p>Polysite is in <b>beta</b>. The core is built and tested, and I am looking for the first organisations to shape it with me. It is <b>source-available, not open source</b>: free to use and change for your own organisation's sites; building or hosting sites for clients for a fee needs a separate agreement. It sends no usage data anywhere.</p>
+          <p>Polysite is in <b>beta</b>. The core is built and tested, and I am looking for the first organisations to shape it with me. It is <b>source-available, not open source</b>: free to use and change for your own organisation's sites; building or hosting sites for clients for a fee needs a separate agreement. Polysite itself sends no usage data anywhere.</p>
           <p class="fine" style="margin-bottom:0">Built by Harsh Doshi at Quick Support Today, together with Claude, Anthropic's AI coding assistant. The automated tests and the documented list of past bugs are the record of what was checked. Licensing questions: <a href="mailto:info@quicksupporttoday.com">info@quicksupporttoday.com</a>.</p>
         </div>
       </div>
@@ -311,6 +320,7 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build</co
       </div>
       <div>
         <p>Polysite is source-available under the <a href="https://github.com/polysites/polysite/blob/main/LICENSE.md">Polysite Source-Available License 1.0</a>. It is not open source.</p>
+        <p>This website counts visits with Google Analytics. Polysite itself sends no usage data.</p>
         <p>&copy; 2026 Quick Support Today Inc.</p>
       </div>
     </div>
