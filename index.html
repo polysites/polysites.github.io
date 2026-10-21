@@ -3,59 +3,317 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Polysite: the multisite CMS for organisations</title>
-  <meta name="description" content="One cockpit for every site you run: a multisite, static-first CMS.">
+  <title>Polysite: run all your websites from one place</title>
+  <meta name="description" content="Polysite is a CMS for organisations with more than one website: one login, one set of updates, and every site keeps its own address, look and team. Beta, source-available, free for your own sites.">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://polysites.github.io/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Polysite">
   <meta property="og:locale" content="en_US">
   <meta property="og:url" content="https://polysites.github.io/">
-  <meta property="og:title" content="Polysite: the multisite CMS for organisations">
-  <meta property="og:description" content="One cockpit for every site you run: a multisite, static-first CMS with per-site themes, roles you edit in the admin, and plugins you add as folders.">
+  <meta property="og:title" content="Polysite: run all your websites from one place">
+  <meta property="og:description" content="One login, one set of updates, and every site keeps its own address, look and team. Ten example designs included. Beta and source-available.">
   <meta property="og:image" content="https://polysites.github.io/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Polysite: one cockpit for every site you run, with three example sites">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Polysite: the multisite CMS for organisations">
-  <meta name="twitter:description" content="One cockpit for every site you run: a multisite, static-first CMS.">
+  <meta name="twitter:title" content="Polysite: run all your websites from one place">
+  <meta name="twitter:description" content="One login, one set of updates, and every site keeps its own address, look and team.">
   <meta name="twitter:image" content="https://polysites.github.io/og-image.png">
   <style>
-    :root { --fg: #16213e; --bg: #ffffff; --muted: #4b5675; --accent: #3e5ba6; --line: #dfe3ee; }
-    @media (prefers-color-scheme: dark) { :root { --fg: #f2f4f8; --bg: #121318; --muted: #a9b0c4; --accent: #6b8fd4; --line: #2a2d3a; } }
+    :root {
+      --ink: #16213e; --bg: #ffffff; --surface: #f5f6f8; --muted: #4b5565; --accent: #3e5ba6; --tint: #e8ecf6; --line: #e2e5ea;
+      --accent-ink: #ffffff; --shadow: 0 1px 2px rgba(22,33,62,.06), 0 12px 32px rgba(22,33,62,.10);
+      --glow: radial-gradient(60rem 28rem at 85% -10%, rgba(62,91,166,.16), transparent 60%), radial-gradient(40rem 22rem at -5% 20%, rgba(62,91,166,.08), transparent 60%);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --ink: #f2f4f8; --bg: #121318; --surface: #1b1d24; --muted: #aeb7c6; --accent: #6b8fd4; --tint: #232b42; --line: #2a2d36;
+        --accent-ink: #0d1020; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.45);
+        --glow: radial-gradient(60rem 28rem at 85% -10%, rgba(107,143,212,.18), transparent 60%), radial-gradient(40rem 22rem at -5% 20%, rgba(107,143,212,.08), transparent 60%); }
+    }
     * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100vh; display: grid; place-items: center; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--fg); background: var(--bg); line-height: 1.55; }
-    main { width: 100%; max-width: 38rem; padding: 2rem 1rem; }
-    img.logo { display: block; width: 15rem; max-width: 80%; height: auto; margin: 0 0 1.5rem; }
-    h1 { font-size: 1.6rem; line-height: 1.25; margin: 0 0 .5rem; }
-    p { margin: 0 0 1rem; }
-    .lead { color: var(--muted); font-size: 1.1rem; }
-    ul { list-style: none; margin: 1.5rem 0; padding: 0; border-top: 1px solid var(--line); }
-    li { padding: .7rem 0; border-bottom: 1px solid var(--line); }
-    li span { display: block; color: var(--muted); font-size: .92rem; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+    body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
     a { color: var(--accent); }
-    a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-    small { display: block; color: var(--muted); font-size: .85rem; margin-top: 2rem; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+    img { max-width: 100%; height: auto; display: block; }
+    .wrap { width: 100%; max-width: 72rem; margin: 0 auto; padding: 0 1.25rem; }
+    .serif { font-family: Georgia, "Iowan Old Style", "Times New Roman", serif; }
+    h1, h2, h3 { line-height: 1.15; margin: 0 0 .6rem; letter-spacing: -.01em; }
+    h1 { font-size: clamp(2.2rem, 5.5vw, 3.8rem); }
+    h2 { font-size: clamp(1.7rem, 3.6vw, 2.5rem); }
+    h3 { font-size: 1.15rem; }
+    p { margin: 0 0 1rem; }
+    .muted { color: var(--muted); }
+    .eyebrow { font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: .75rem; }
+    section { padding: clamp(3rem, 8vw, 6rem) 0; }
+    .alt { background: var(--surface); }
+
+    header.top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    header.top .wrap { display: flex; align-items: center; gap: 1rem; min-height: 4rem; }
+    header.top img { height: 2rem; width: auto; }
+    nav { margin-left: auto; display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; font-size: .95rem; }
+    nav a { color: var(--muted); text-decoration: none; }
+    nav a:hover { color: var(--ink); }
+    @media (max-width: 40rem) { nav .hide-sm { display: none; } }
+
+    .btn { display: inline-block; padding: .8rem 1.3rem; border-radius: .7rem; font-weight: 650; text-decoration: none; border: 1px solid transparent; transition: transform .15s ease, box-shadow .15s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn.primary { background: var(--accent); color: var(--accent-ink); box-shadow: 0 6px 18px rgba(62,91,166,.35); }
+    .btn.ghost { border-color: var(--line); color: var(--ink); background: var(--bg); }
+    .btn.small { padding: .5rem .9rem; font-size: .9rem; }
+    .row { display: flex; flex-wrap: wrap; gap: .75rem; }
+
+    .hero { background: var(--glow); padding-top: clamp(2.5rem, 7vw, 5rem); overflow: hidden; }
+    .hero-grid { display: grid; gap: 3rem; grid-template-columns: 1fr; align-items: center; }
+    @media (min-width: 62rem) { .hero-grid { grid-template-columns: 1.05fr 1fr; } }
+    .hero h1 { margin-bottom: 1rem; }
+    .hero .lead { font-size: 1.2rem; color: var(--muted); max-width: 34rem; }
+    .badges { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+    .badges li { font-size: .82rem; padding: .3rem .7rem; border-radius: 99px; background: var(--tint); color: var(--accent); font-weight: 600; }
+    .stack { position: relative; min-height: 20rem; }
+    .stack figure { position: absolute; margin: 0; width: 72%; border-radius: .8rem; overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow); background: var(--bg); transition: transform .3s ease; }
+    .stack figure:nth-child(1) { top: 0; left: 0; transform: rotate(-3deg); z-index: 1; }
+    .stack figure:nth-child(2) { top: 18%; left: 24%; transform: rotate(2deg); z-index: 2; }
+    .stack figure:nth-child(3) { top: 40%; left: 8%; transform: rotate(-1deg); z-index: 3; }
+    .stack figure:hover { transform: rotate(0) scale(1.03); z-index: 4; }
+    .stack img { aspect-ratio: 16/10; object-fit: cover; object-position: top; width: 100%; }
+    .stack figcaption { font-size: .75rem; padding: .35rem .7rem; color: var(--muted); border-top: 1px solid var(--line); }
+    @media (min-width: 62rem) { .stack { min-height: 30rem; } }
+    @media (max-width: 40rem) { .stack { min-height: 24rem; } .stack figure { width: 82%; } }
+
+    .grid3 { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+    .card { background: var(--bg); border: 1px solid var(--line); border-radius: 1rem; padding: 1.4rem; }
+    .alt .card { background: var(--bg); }
+    .card .icon { width: 2.4rem; height: 2.4rem; border-radius: .7rem; background: var(--tint); color: var(--accent); display: grid; place-items: center; font-size: 1.2rem; margin-bottom: .8rem; }
+    .pain h3 { margin-bottom: .4rem; }
+    .section-head { max-width: 42rem; margin-bottom: 2.2rem; }
+
+    .gallery { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
+    .gallery figure { margin: 0; border-radius: .9rem; overflow: hidden; border: 1px solid var(--line); background: var(--bg); transition: transform .2s ease, box-shadow .2s ease; }
+    .gallery figure:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .gallery img { aspect-ratio: 16/10; object-fit: cover; object-position: top; width: 100%; }
+    .gallery figcaption { padding: .7rem .9rem; font-size: .9rem; }
+    .gallery figcaption b { display: block; }
+    .gallery figcaption span { color: var(--muted); font-size: .82rem; }
+
+    .proof { display: grid; gap: 2rem; grid-template-columns: 1fr; align-items: center; }
+    @media (min-width: 56rem) { .proof { grid-template-columns: 1fr 1fr; } }
+    .nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center; }
+    .nums div { background: var(--bg); border: 1px solid var(--line); border-radius: 1rem; padding: 1.2rem .5rem; }
+    .nums b { display: block; font-size: clamp(1.4rem, 3.5vw, 2.1rem); color: var(--accent); }
+    .nums span { font-size: .82rem; color: var(--muted); }
+    .fine { font-size: .85rem; color: var(--muted); }
+
+    .paths { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
+    .paths .card { padding: 1.8rem; }
+    pre { background: #0f1424; color: #e8ecf6; border-radius: .8rem; padding: 1rem 1.1rem; overflow-x: auto; font-size: .85rem; line-height: 1.55; margin: 1rem 0; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    :not(pre) > code { background: var(--tint); padding: .1rem .35rem; border-radius: .3rem; font-size: .88em; }
+    ol.steps { padding-left: 1.2rem; margin: 0 0 1rem; }
+    ol.steps li { margin-bottom: .35rem; }
+
+    .status { border-left: 4px solid var(--accent); background: var(--bg); border-radius: .3rem 1rem 1rem .3rem; padding: 1.4rem 1.6rem; }
+    footer { padding: 2.5rem 0 3rem; border-top: 1px solid var(--line); font-size: .9rem; color: var(--muted); }
+    footer .wrap { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+    footer a { color: var(--muted); }
+    footer ul { list-style: none; padding: 0; margin: 0; }
+    footer li { margin-bottom: .3rem; }
+    .skip { position: absolute; left: -999px; top: 0; background: var(--accent); color: var(--accent-ink); padding: .5rem 1rem; z-index: 20; }
+    .skip:focus { left: .5rem; top: .5rem; }
   </style>
 </head>
 <body>
-  <main>
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="/logo-horizontal-reversed.svg">
-      <img class="logo" src="/logo-horizontal.svg" alt="Polysite" width="240" height="64">
-    </picture>
-    <h1>The multisite CMS for organisations</h1>
-    <p class="lead">One cockpit for every site you run.</p>
-    <p>Polysite lets one team publish and manage many websites from a single admin, with per-site themes, roles you edit in the admin, and plugins you add as folders.</p>
-    <ul>
-      <li><a href="/polysite/">Documentation</a><span>Guides for setting up, running, securing and extending Polysite.</span></li>
-      <li><a href="https://github.com/polysites/polysite">Source code</a><span>The core application.</span></li>
-      <li><a href="https://github.com/polysites/polysite-plugins">Plugins</a><span>Email, sign-in security, languages, news, search, share buttons, webhooks and more.</span></li>
-      <li><a href="https://github.com/polysites/polysite-themes">Themes</a><span>A starter theme, ten examples and the theme developer guide.</span></li>
-      <li><a href="https://github.com/polysites/polysite-deploy">Deployment</a><span>Kubernetes, your own reverse proxy, a single VM or bare metal.</span></li>
-    </ul>
-    <small>Polysite is source-available under the <a href="https://github.com/polysites/polysite/blob/main/LICENSE.md">Polysite Source-Available License 1.0</a>. It is not open source. For commercial licensing, write to <a href="mailto:info@quicksupporttoday.com">info@quicksupporttoday.com</a>. &copy; 2026 Quick Support Today Inc.</small>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <div class="wrap">
+      <a href="/" aria-label="Polysite home">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="/logo-horizontal-reversed.svg">
+          <img src="/logo-horizontal.svg" alt="Polysite" width="120" height="32">
+        </picture>
+      </a>
+      <nav aria-label="Main">
+        <a class="hide-sm" href="#designs">Designs</a>
+        <a class="hide-sm" href="#features">What you get</a>
+        <a class="hide-sm" href="#try">Try it</a>
+        <a href="/polysite/">Docs</a>
+        <a class="btn primary small" href="mailto:me@iamharshdoshi.com?subject=Polysite%20walk-through">Talk to me</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">For organisations with more than one website</p>
+          <h1 class="serif">Run all your websites from one place.</h1>
+          <p class="lead">One login. One set of updates. Every site keeps its own address, its own look and its own team. Built for campaigns, associations, charities and anyone tired of keeping five websites alive.</p>
+          <div class="row" style="margin-top:1.5rem">
+            <a class="btn primary" href="#designs">See the ten designs</a>
+            <a class="btn ghost" href="#try">Try it on your computer</a>
+          </div>
+          <ul class="badges" aria-label="Status">
+            <li>Beta</li><li>Source-available</li><li>Free for your own sites</li><li>No tracking built in</li>
+          </ul>
+        </div>
+        <div class="stack" aria-label="Three of the ten example designs">
+          <figure><img src="/img/themes/event.png" alt="Example design: a one-weekend conference site" width="1280" height="800"><figcaption>A conference</figcaption></figure>
+          <figure><img src="/img/themes/salon.png" alt="Example design: a day spa" width="1280" height="800"><figcaption>A day spa</figcaption></figure>
+          <figure><img src="/img/themes/helpdesk.png" alt="Example design: a help centre" width="1280" height="800"><figcaption>A help centre</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt" id="why">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Does this sound familiar?</p>
+          <h2 class="serif">Five websites should not mean five of everything.</h2>
+        </div>
+        <div class="grid3 pain">
+          <div class="card"><div class="icon" aria-hidden="true">🔑</div><h3>Five logins, five update days</h3><p class="muted">Every site has its own sign-in and its own software to keep current. Something always gets forgotten.</p></div>
+          <div class="card"><div class="icon" aria-hidden="true">✋</div><h3>Who is allowed to publish?</h3><p class="muted">Changing it means an email to a developer and a wait. Meanwhile an old volunteer still has the keys.</p></div>
+          <div class="card"><div class="icon" aria-hidden="true">📈</div><h3>The day it goes viral</h3><p class="muted">The petition is shared everywhere, thousands arrive at once, and you find out whether the site holds.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="designs">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Ten example designs, ready to use</p>
+          <h2 class="serif">Same engine. Nothing alike on the outside.</h2>
+          <p class="muted">Each design is a complete, fictional example site that comes with Polysite. Use one as it is, restyle it, or start your own with a single command. Every name, person and picture is made up.</p>
+        </div>
+        <div class="gallery">
+          <figure><img loading="lazy" src="/img/themes/salon.png" alt="Maison Lune, a day spa" width="1280" height="800"><figcaption><b>Maison Lune</b><span>A day spa or beauty parlour</span></figcaption></figure>
+          <figure><img loading="lazy" src="/img/themes/restaurant.png" alt="Café Tilleul, a neighbourhood café" width="1280" height="800"><figcaption><b>Café Tilleul</b><span>A café or restaurant, bilingual-ready</span></figcaption></figure>
+          <figure><img loading="lazy" src="/img/themes/agency.png" alt="Fernlight Studio, a consultancy" width="1280" height="800"><figcaption><b>Fernlight Studio</b><span>A consultancy or software company</span></figcaption></figure>
+          <figure><img loading="lazy" src="/img/themes/shop.png" alt="Tuppence and Thistle, a local shop" width="1280" height="800"><figcaption><b>Tuppence &amp; Thistle</b><span>A small shop catalogue</span></figcaption></figure>
+          <figure><img loading="lazy" src="/img/themes/blog.png" alt="Small Hours, a writer's blog" width="1280" height="800"><figcaption><b>Small Hours</b><span>A writer's journal</span></figcaption></figure>
+          <figure><img loading="lazy" src="/img/themes/portfolio.png" alt="Juno Fairweather, a portfolio" width="1280" height="800"><figcaption><b>Juno Fairweather</b><span>A designer or photographer</span></figcaption></figure>
+          <figure><img loading="lazy" src="/img/themes/resume.png" alt="Mira Castellane, a CV site" width="1280" height="800"><figcaption><b>Mira Castellane</b><span>A one-page CV with a print layout</span></figcaption></figure>
+          <figure><img loading="lazy" src="/img/themes/event.png" alt="Sundial Weekend, a conference" width="1280" height="800"><figcaption><b>Sundial Weekend</b><span>A one-weekend conference or festival</span></figcaption></figure>
+          <figure><img loading="lazy" src="/img/themes/nonprofit.png" alt="Brookside Neighbours, a community charity" width="1280" height="800"><figcaption><b>Brookside Neighbours</b><span>A community charity</span></figcaption></figure>
+          <figure><img loading="lazy" src="/img/themes/helpdesk.png" alt="Fernleaf, a help centre" width="1280" height="800"><figcaption><b>Fernleaf</b><span>A help centre with search</span></figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt" id="features">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">What you get</p>
+          <h2 class="serif">Everything a team needs, in plain terms.</h2>
+        </div>
+        <div class="grid3">
+          <div class="card"><div class="icon" aria-hidden="true">🌐</div><h3>Many sites, one place</h3><p class="muted">Each site has its own domain, content, media and team. An editor of one site cannot see or change another.</p></div>
+          <div class="card"><div class="icon" aria-hidden="true">🛡️</div><h3>Roles you edit yourself</h3><p class="muted">Make a role such as "Newsletter editor", tick what it may do, save. No developer, no wait. Anything not ticked is blocked.</p></div>
+          <div class="card"><div class="icon" aria-hidden="true">🧱</div><h3>Build pages with blocks</h3><p class="muted">Compose pages from ready-made blocks and preview them at phone, tablet and desktop widths before publishing.</p></div>
+          <div class="card"><div class="icon" aria-hidden="true">🕒</div><h3>Drafts, history, scheduling</h3><p class="muted">Save a draft, compare versions, restore an old one, and schedule publishing for later.</p></div>
+          <div class="card"><div class="icon" aria-hidden="true">✍️</div><h3>Petitions and forms</h3><p class="muted">One signature per person, a public count with a goal bar, consent built in, and old entries deleted on a timer.</p></div>
+          <div class="card"><div class="icon" aria-hidden="true">🎟️</div><h3>Events and sign-ups</h3><p class="muted">Event pages with a limit and a waiting list, calendar files, reminders and an attendee list.</p></div>
+          <div class="card"><div class="icon" aria-hidden="true">🧩</div><h3>Add only what you need</h3><p class="muted">News, search, several languages, signed webhooks and more are plugins you add as folders. Take one out and nothing is lost.</p></div>
+          <div class="card"><div class="icon" aria-hidden="true">🔒</div><h3>Careful by default</h3><p class="muted">Nightly backups, tested restores, a deploy that backs up first and rolls back on its own. No usage tracking.</p></div>
+          <div class="card"><div class="icon" aria-hidden="true">🎨</div><h3>Your own look</h3><p class="muted">A site's whole look is one folder. Copy an example, change the colours, and a site is wearing it.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="proof">
+      <div class="wrap proof">
+        <div>
+          <p class="eyebrow">We tried to break it</p>
+          <h2 class="serif">A petition that kept every signature.</h2>
+          <p class="muted">We sent thousands of signatures at a deliberately modest server, all at once. Every one was saved, none was counted twice. The test script is public, so you can try to break it on your own server.</p>
+          <p class="fine">Lab test on one machine: the app limited to 1 CPU and 1 GB, the test running alongside it. About 55 signatures a second. Treat it as an estimate and test your own server before a campaign. <a href="/polysite/guide/forms">How petitions work</a>.</p>
+        </div>
+        <div class="nums" role="group" aria-label="Test result">
+          <div><b>3,457</b><span>signatures sent</span></div>
+          <div><b>3,457</b><span>signatures saved</span></div>
+          <div><b>0</b><span>lost or doubled</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt" id="try">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Two ways in</p>
+          <h2 class="serif">See it with your own eyes.</h2>
+        </div>
+        <div class="paths">
+          <div class="card">
+            <h3>For your team</h3>
+            <p class="muted">Not technical? Good. Tell me about your sites and I will show you how they would work in one place, and what it would take to get there. No pitch, no obligation.</p>
+            <p><a class="btn primary" href="mailto:me@iamharshdoshi.com?subject=Polysite%20walk-through">Book a walk-through</a></p>
+            <p class="fine">Working with a contractor or an agency? Ask me how the licence applies: me@iamharshdoshi.com.</p>
+          </div>
+          <div class="card">
+            <h3>For developers</h3>
+            <p class="muted">Run it on your own computer with Docker and Git. About two minutes to build on the maintainers' machine.</p>
+<pre><code>git clone https://github.com/polysites/polysite.git &amp;&amp; cd polysite
+git clone https://github.com/polysites/polysite-themes.git themes
+git clone https://github.com/polysites/polysite-plugins.git plugins
+cp .env.example .env
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build</code></pre>
+            <ol class="steps">
+              <li>Open <code>http://polysite.localhost/admin</code>.</li>
+              <li>The setup page asks for your admin account and first site: use the domain <code>examplesite.localhost</code>, pick a theme, tick the starter home page.</li>
+              <li>Open <code>http://examplesite.localhost</code>. Add <code>examplesite2.localhost</code> with another theme.</li>
+            </ol>
+            <p class="fine">Needs ports 80, 443, 3000, 3001 and 5432 free and about 5 GB of disk. This is the hot-reload development setup, not production.</p>
+            <div class="row"><a class="btn ghost small" href="/polysite/guide/getting-started">Full guide</a><a class="btn ghost small" href="https://github.com/polysites/polysite">Source code</a><a class="btn ghost small" href="/polysite/guide/themes">Make a theme</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="status">
+      <div class="wrap">
+        <div class="status">
+          <h2 class="serif" style="font-size:1.6rem">Where it stands, honestly.</h2>
+          <p>Polysite is in <b>beta</b>. The core is built and tested, and I am looking for the first organisations to shape it with me. It is <b>source-available, not open source</b>: free to use and change for your own organisation's sites; building or hosting sites for clients for a fee needs a separate agreement. It sends no usage data anywhere.</p>
+          <p class="fine" style="margin-bottom:0">Built by Harsh Doshi at Quick Support Today, together with Claude, Anthropic's AI coding assistant. The automated tests and the documented list of past bugs are the record of what was checked. Licensing questions: <a href="mailto:info@quicksupporttoday.com">info@quicksupporttoday.com</a>.</p>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <div class="wrap">
+      <div>
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="/logo-horizontal-reversed.svg">
+          <img src="/logo-horizontal.svg" alt="Polysite" width="120" height="32">
+        </picture>
+        <p style="margin-top:.8rem">One cockpit for every site you run.</p>
+      </div>
+      <div>
+        <ul>
+          <li><a href="/polysite/">Documentation</a></li>
+          <li><a href="/polysite/guide/examples">The ten example designs</a></li>
+          <li><a href="/polysite/guide/plugins">Plugins</a></li>
+          <li><a href="/polysite/guide/themes">Themes</a></li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li><a href="https://github.com/polysites/polysite">Source code</a></li>
+          <li><a href="https://github.com/polysites/polysite-plugins">Plugins on GitHub</a></li>
+          <li><a href="https://github.com/polysites/polysite-themes">Themes on GitHub</a></li>
+          <li><a href="https://github.com/polysites/polysite-deploy">Deployment</a></li>
+        </ul>
+      </div>
+      <div>
+        <p>Polysite is source-available under the <a href="https://github.com/polysites/polysite/blob/main/LICENSE.md">Polysite Source-Available License 1.0</a>. It is not open source.</p>
+        <p>&copy; 2026 Quick Support Today Inc.</p>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
