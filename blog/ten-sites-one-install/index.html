@@ -72,6 +72,11 @@ alt="Ten very different example websites on one Polysite install" />
 <figcaption aria-hidden="true">Ten very different example websites on
 one Polysite install</figcaption>
 </figure>
+<p><strong>In short:</strong> Polysite is a CMS that runs many websites
+from one install. Each site keeps its own domain, look, content and
+team. It is in beta and source-available (free for your own
+organisation’s sites). This article walks you through running two sites
+on your laptop in about ten minutes.</p>
 <p>If your organisation runs more than one website, you already know the
 feeling. Five sites means five logins, five update days and five
 slightly different answers to “who is allowed to publish?”. Somebody
@@ -100,6 +105,25 @@ at. Content, media and users belong to that site. Everything else
 <p>Under the hood it is a Payload CMS 3 back end and a Nuxt 4 public
 site, with PostgreSQL, run with Docker Compose. You do not need to know
 any of that to follow the next section.</p>
+<h2 id="why-not-wordpress-multisite">Why not WordPress Multisite?</h2>
+<p>You may be wondering how this differs from WordPress Multisite,
+Drupal multisite or simply running several installs. I am not claiming
+those are bad; they solve the same problem in different ways. Here is
+what I wanted and could not get in one place:</p>
+<ul>
+<li><strong>Roles that are data.</strong> A Super Admin creates a role,
+ticks what it may do and saves. No code, no deploy.</li>
+<li><strong>Themes as plain folders</strong> (Nuxt layers), with a
+parent fallback, so one site’s look can be a single overridden
+block.</li>
+<li><strong>One build, many sites.</strong> The request’s domain picks
+the site and its theme.</li>
+<li><strong>Plugins that never delete user data</strong> when removed,
+enforced in CI.</li>
+</ul>
+<p>If your sites are all WordPress and you rely on its plugin ecosystem,
+Multisite is probably the better fit. Polysite is for people who want
+one modern, typed stack across all their sites.</p>
 <h2 id="try-it-yourself-in-about-ten-minutes">Try it yourself in about
 ten minutes</h2>
 <p>You need Docker (with Compose v2) and Git. Nothing else gets
@@ -320,18 +344,19 @@ enforces it.</p>
 <h2 id="how-it-was-built">How it was built</h2>
 <p>Polysite was built by me together with Claude, Anthropic’s AI coding
 assistant. I am saying so plainly because it matters to how you read the
-rest. The record of what was checked is the automated test suites
-(hundreds of unit tests), the real-stack checks, the load test above and
-the Known Issues log, not my say-so. I would rather you read them than
-trust either of us.</p>
+rest. The record of what was checked is the automated test suites (over
+600 unit tests at the last count, 613 on 11 October), the real-stack
+checks, the load test above and the Known Issues log, not my say-so. I
+would rather you read them than trust either of us.</p>
 <h2 id="where-it-stands">Where it stands</h2>
 <p>Polysite is in <strong>beta</strong>. It is <strong>source-available,
 not open source</strong>: free to use and modify for your own
 organisation’s sites, and building or hosting sites for clients for a
-fee needs a separate agreement. Because the deploy and release tooling
-is new, try it on a throwaway server before anything important, and take
-your own backup before upgrading. There has not been an independent
-security review yet.</p>
+fee needs a separate agreement. The full terms are in the <a
+href="https://github.com/polysites/polysite/blob/HEAD/LICENSE.md">licence</a>.
+Because the deploy and release tooling is new, try it on a throwaway
+server before anything important, and take your own backup before
+upgrading. There has not been an independent security review yet.</p>
 <h2 id="try-it-break-it-tell-me">Try it, break it, tell me</h2>
 <ul>
 <li><strong>Docs:</strong> <a
@@ -344,6 +369,9 @@ alongside)</li>
 <li><strong>Landing page:</strong> <a
 href="https://polysites.github.io">polysites.github.io</a></li>
 </ul>
+<p>If it looks useful, a star on <a
+href="https://github.com/polysites/polysite">GitHub</a> helps other
+people find it.</p>
 <p>Three things I would love to hear: which example theme you would
 restyle first; what your load-test number was; and whether “every plugin
 owns its tables and migrations” sounds sane to you or like a trap. Write
